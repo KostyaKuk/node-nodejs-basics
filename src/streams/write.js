@@ -1,23 +1,19 @@
-// import { createWriteStream } from 'node:fs';
-// import path from 'node:path';
-// import { fileURLToPath } from 'node:url';
+import { createWriteStream } from 'node:fs';
+import { pipeline } from 'node:stream/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// const write = async () => {
-//  const filePath = path.join(__dirname, 'files', 'fileToWrite.txt');
-//   const createStream = createWriteStream(filePath, { encoding: 'utf-8' });
+const write = async () => {
+  const filePath = path.join(__dirname, 'files', 'fileToWrite.txt');
+  const createStream = createWriteStream(filePath, { encoding: 'utf-8' });
 
-//    process.stdin.pipe(createStream);
-
-
-//    await new Promise((resolve, reject) => {
-//     createStream.on('finish', () => {
-//       console.log(`wryte complete ${filePath}`);
-//       resolve();
-//     })
-//    })
-// };
+ await pipeline(
+    process.stdin,
+    createStream
+  );
+};
 
 await write();
