@@ -1,5 +1,4 @@
 import { createReadStream } from 'node:fs';
-import { pipeline } from 'node:stream/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -8,12 +7,10 @@ const __dirname = path.dirname(__filename);
 
 const read = async () => {
 const filePath = path.join(__dirname, 'files', 'fileToRead.txt');
-const readStream = createReadStream(filePath);
+const readStream = createReadStream(filePath, 'utf-8');
     
-   await pipeline(
-    readStream,
-    process.stdout
-  );
+
+  readStream.pipe(process.stdout);
 };
 
 await read();
